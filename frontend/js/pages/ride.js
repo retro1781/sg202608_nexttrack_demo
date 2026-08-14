@@ -17,7 +17,10 @@ export default function Ride() {
         <span class="title">실시간 탑승</span>
         <span class="live-tag" style="margin-left:auto;margin-right:6px"><span class="live-blip"></span>실시간</span>
       </div>
-      <div class="ride-confirm">🔔 부모님께 탑승 완료 메세지를 보냈어요</div>
+      <div class="ride-confirm">
+        <span class="rc-ic">💌</span>
+        <span class="rc-msg"><b>부모님께 안심 메세지를 보냈어요</b><br>${store.state.nickname || "학생"} 학생이 안전하게 탑승했어요 · 실시간으로 함께 지켜봐요 😊</span>
+      </div>
       <div class="ride-map"><div class="ride-canvas"></div><div class="map-loading" id="rLoad">실시간 위치 불러오는 중…</div></div>
       <div class="ride-panel">
         <div class="ride-hd">
@@ -127,7 +130,7 @@ export default function Ride() {
             <div class="alight-route">${r.title} ${r.code}</div>
             <div class="qr-wrap" id="alightQr"></div>
             <div class="tk-token">하차 시 기사님께 이 QR을 보여주세요</div>
-            <div class="alight-note">🔔 부모님께 하차(도착) 완료 메세지를 보냈어요</div>
+            <div class="alight-note">💌 부모님께 "안전하게 도착했어요" 안심 메세지를 보냈어요 😊</div>
             <button class="cta" data-close style="margin-top:14px">확인</button>
             <button class="cta ghost" data-go="home" style="margin-top:10px">이용 종료 · 홈으로</button>
           </div>
@@ -144,7 +147,7 @@ export default function Ride() {
     dim.addEventListener("click", (e) => { if (e.target === dim) remove(); });
     document.getElementById("phoneScreen").appendChild(dim);
     setTimeout(() => dim.classList.add("show"), 10);
-    toast("부모님께 하차(도착) 완료 메세지를 보냈어요 ✓");
+    toast("부모님께 안전하게 도착했다고 알려드렸어요 😊");
   }
 
   el.querySelector("#alightBtn").addEventListener("click", () => {

@@ -172,7 +172,10 @@ img{display:block}
 
 /* 실시간 탑승 페이지 */
 #v-ride{background:#EEF0F3}
-.ride-confirm{flex:none;display:flex;align-items:center;justify-content:center;gap:7px;background:#ECFDF5;color:#0B7E58;font-size:13px;font-weight:700;padding:11px 14px;border-bottom:1px solid #C7F0DD}
+.ride-confirm{flex:none;display:flex;align-items:flex-start;gap:11px;background:#ECFDF5;color:#0B7E58;padding:13px 16px;border-bottom:1px solid #C7F0DD}
+.rc-ic{font-size:19px;line-height:1.25;flex:none}
+.rc-msg{font-size:12.5px;line-height:1.5;font-weight:600}
+.rc-msg b{display:inline-block;font-size:13.5px;font-weight:800;margin-bottom:1px}
 .ride-map{flex:1;position:relative;min-height:0;background:#EEF0F3}
 .ride-canvas{width:100%;height:100%}
 .ride-map .leaflet-container{width:100%;height:100%;background:#EEF0F3}

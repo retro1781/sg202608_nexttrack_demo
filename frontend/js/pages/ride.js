@@ -1,6 +1,7 @@
 // 07 실시간 탑승 — 도로를 따라 움직이는 버스(OSRM), 보호자 알림, 도착 시 하차 QR
 import { h } from "../util.js";
 import { store } from "../store.js";
+import { toast } from "../ui.js";
 import { addRide, todayYMD } from "../rideLog.js";
 
 const RIDE_SECONDS = 26;   // 시연용: 출발→도착 애니메이션 길이
@@ -16,10 +17,14 @@ export default function Ride() {
         <span class="title">실시간 탑승</span>
         <span class="live-tag" style="margin-left:auto;margin-right:6px"><span class="live-blip"></span>실시간</span>
       </div>
+      <div class="ride-confirm">🔔 부모님께 탑승 완료 메세지를 보냈어요</div>
       <div class="ride-map"><div class="ride-canvas"></div><div class="map-loading" id="rLoad">실시간 위치 불러오는 중…</div></div>
       <div class="ride-panel">
         <div class="ride-hd">
-          <div class="ride-route">${r.title || ""} <span class="code">${r.code || ""}</span> · ${b ? b.seatNo + "번" : ""}</div>
+          <div class="ride-head-left">
+            <div class="ride-route">${r.title || ""} <span class="code">${r.code || ""}</span></div>
+            <div class="ride-seat">${b ? b.seatNo + "번 좌석" : ""}</div>
+          </div>
           <div class="ride-eta" id="rideEta">이동 준비 중…</div>
         </div>
         <div class="ride-note">📍 실시간 위치로 안전하게 이동 중이에요</div>
@@ -38,7 +43,7 @@ export default function Ride() {
     if (!b) return;
     if (!store.state.ride || store.state.ride.bookingId !== b.bookingId) {
       store.state.ride = { bookingId: b.bookingId, routeId: b.routeId, startAt: Date.now(), durationSec: RIDE_SECONDS };
-      store.board(b.bookingId).catch(() => {});   // 보호자 알림은 뒤에서 발송(학생 화면엔 안 띄움)
+      store.board(b.bookingId).catch(() => {});   // 서버에서 보호자 알림 발송
       addRide({ date: todayYMD(), route: `${r.title} ${r.code}`, seat: b.seatNo, bookingId: b.bookingId });
     }
   }
@@ -122,7 +127,7 @@ export default function Ride() {
             <div class="alight-route">${r.title} ${r.code}</div>
             <div class="qr-wrap" id="alightQr"></div>
             <div class="tk-token">하차 시 기사님께 이 QR을 보여주세요</div>
-            <div class="alight-note">🔔 하차하면 보호자에게 도착 알림이 전송돼요</div>
+            <div class="alight-note">🔔 부모님께 하차(도착) 완료 메세지를 보냈어요</div>
             <button class="cta" data-close style="margin-top:14px">확인</button>
             <button class="cta ghost" data-go="home" style="margin-top:10px">이용 종료 · 홈으로</button>
           </div>
@@ -139,6 +144,7 @@ export default function Ride() {
     dim.addEventListener("click", (e) => { if (e.target === dim) remove(); });
     document.getElementById("phoneScreen").appendChild(dim);
     setTimeout(() => dim.classList.add("show"), 10);
+    toast("부모님께 하차(도착) 완료 메세지를 보냈어요 ✓");
   }
 
   el.querySelector("#alightBtn").addEventListener("click", () => {

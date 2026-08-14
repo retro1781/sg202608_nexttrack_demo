@@ -172,14 +172,17 @@ img{display:block}
 
 /* 실시간 탑승 페이지 */
 #v-ride{background:#EEF0F3}
+.ride-confirm{flex:none;display:flex;align-items:center;justify-content:center;gap:7px;background:#ECFDF5;color:#0B7E58;font-size:13px;font-weight:700;padding:11px 14px;border-bottom:1px solid #C7F0DD}
 .ride-map{flex:1;position:relative;min-height:0;background:#EEF0F3}
 .ride-canvas{width:100%;height:100%}
 .ride-map .leaflet-container{width:100%;height:100%;background:#EEF0F3}
 .ride-panel{flex:none;background:#fff;border-top:1px solid var(--line);padding:14px 20px calc(14px + env(safe-area-inset-bottom))}
-.ride-hd{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ride-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.ride-head-left{min-width:0}
 .ride-route{font-size:16px;font-weight:800;color:var(--ink)}
 .ride-route .code{color:var(--navy);margin-left:2px}
-.ride-eta{font-size:12px;font-weight:700;color:var(--navy);text-align:right;flex:none}
+.ride-seat{font-size:13px;font-weight:700;color:var(--navy);margin-top:3px}
+.ride-eta{font-size:12px;font-weight:700;color:var(--navy);text-align:right;flex:none;margin-top:2px}
 .ride-panel .g-push.in-modal{margin:10px 0 0}
 #alightBtn{margin-top:12px}
 #alightBtn.ready{background:var(--green)}

@@ -1,6 +1,7 @@
 // 07 실시간 탑승 — 도로를 따라 움직이는 버스(OSRM), 보호자 알림, 도착 시 하차 QR
 import { h } from "../util.js";
 import { store } from "../store.js";
+import { navigate } from "../router.js";
 import { toast } from "../ui.js";
 import { addRide, todayYMD } from "../rideLog.js";
 
@@ -17,10 +18,7 @@ export default function Ride() {
         <span class="title">실시간 탑승</span>
         <span class="live-tag" style="margin-left:auto;margin-right:6px"><span class="live-blip"></span>실시간</span>
       </div>
-      <div class="ride-confirm">
-        <span class="rc-ic">💌</span>
-        <span class="rc-msg"><b>부모님께 안심 메세지를 보냈어요</b><br>${store.state.nickname || "학생"} 학생이 안전하게 탑승했어요 · 실시간으로 함께 지켜봐요 😊</span>
-      </div>
+      <div class="ride-confirm">💌 부모님께 탑승 완료 알림을 보냈어요 😊</div>
       <div class="ride-map"><div class="ride-canvas"></div><div class="map-loading" id="rLoad">실시간 위치 불러오는 중…</div></div>
       <div class="ride-panel">
         <div class="ride-hd">
@@ -131,8 +129,8 @@ export default function Ride() {
             <div class="qr-wrap" id="alightQr"></div>
             <div class="tk-token">하차 시 기사님께 이 QR을 보여주세요</div>
             <div class="alight-note">💌 부모님께 "안전하게 도착했어요" 안심 메세지를 보냈어요 😊</div>
-            <button class="cta" data-close style="margin-top:14px">확인</button>
-            <button class="cta ghost" data-go="home" style="margin-top:10px">이용 종료 · 홈으로</button>
+            <button class="cta" data-confirm style="margin-top:14px">확인 (이용 종료)</button>
+            <button class="cta ghost" data-cancel style="margin-top:10px">취소</button>
           </div>
         </div>
       </div>`);
@@ -141,9 +139,10 @@ export default function Ride() {
     img.style.width = "100%"; img.style.height = "100%";
     dim.querySelector("#alightQr").appendChild(img);
     const remove = () => { dim.classList.remove("show"); setTimeout(() => dim.remove(), 180); };
-    dim.querySelector("[data-close]").addEventListener("click", remove);
-    // 이용 종료 → 진행중 탑승 상태 해제(배너 사라짐). data-go="home"이 홈 이동 처리
-    dim.querySelector('[data-go="home"]').addEventListener("click", () => { store.state.ride = null; remove(); });
+    // 확인 → 이용 종료(탑승 상태 해제 → 배너 사라짐) + 홈으로
+    dim.querySelector("[data-confirm]").addEventListener("click", () => { store.state.ride = null; remove(); navigate("home"); });
+    // 취소 → 모달만 닫기(탑승 계속)
+    dim.querySelector("[data-cancel]").addEventListener("click", remove);
     dim.addEventListener("click", (e) => { if (e.target === dim) remove(); });
     document.getElementById("phoneScreen").appendChild(dim);
     setTimeout(() => dim.classList.add("show"), 10);

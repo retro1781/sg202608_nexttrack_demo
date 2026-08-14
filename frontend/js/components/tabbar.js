@@ -19,7 +19,11 @@ export function wireTabbar(root) {
     t.addEventListener("click", () => {
       const k = t.dataset.tab;
       if (k === "home") navigate("home");
-      else if (k === "ticket") { store.state.booking ? navigate("ticket") : toast("예매된 탑승권이 없어요"); }
+      else if (k === "ticket") {
+        if (store.state.ride) navigate("ride");          // 탑승 중이면 실시간 탑승 화면으로
+        else if (store.state.booking) navigate("ticket");
+        else toast("예매된 탑승권이 없어요");
+      }
       else if (k === "my") navigate("my");
     }));
 }

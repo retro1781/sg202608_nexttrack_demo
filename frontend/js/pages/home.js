@@ -145,7 +145,7 @@ export default function Home() {
         </div>
         <div class="tm-cta">내 탑승권 · QR 보기 ›</div>
       </div>`);
-    node.addEventListener("click", () => navigate("ticket"));
+    node.addEventListener("click", () => navigate(store.state.ride ? "ride" : "ticket"));
     ticketBox.replaceChildren(node);
   }
 

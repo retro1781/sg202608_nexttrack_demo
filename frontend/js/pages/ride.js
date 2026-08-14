@@ -2,7 +2,7 @@
 import { h } from "../util.js";
 import { store } from "../store.js";
 import { navigate } from "../router.js";
-import { toast } from "../ui.js";
+import { toast, modal } from "../ui.js";
 import { addRide, todayYMD } from "../rideLog.js";
 
 const RIDE_SECONDS = 26;   // 시연용: 출발→도착 애니메이션 길이
@@ -18,7 +18,6 @@ export default function Ride() {
         <span class="title">실시간 탑승</span>
         <span class="live-tag" style="margin-left:auto;margin-right:6px"><span class="live-blip"></span>실시간</span>
       </div>
-      <div class="ride-confirm">💌 부모님께 탑승 완료 알림을 보냈어요 😊</div>
       <div class="ride-map"><div class="ride-canvas"></div><div class="map-loading" id="rLoad">실시간 위치 불러오는 중…</div></div>
       <div class="ride-panel">
         <div class="ride-hd">
@@ -46,6 +45,15 @@ export default function Ride() {
       store.state.ride = { bookingId: b.bookingId, routeId: b.routeId, startAt: Date.now(), durationSec: RIDE_SECONDS };
       store.board(b.bookingId).catch(() => {});   // 서버에서 보호자 알림 발송
       addRide({ date: todayYMD(), route: `${r.title} ${r.code}`, seat: b.seatNo, bookingId: b.bookingId });
+      // 1초 뒤 안심 알림 모달 (첫 탑승 시 한 번만)
+      setTimeout(() => {
+        if (!document.body.contains(el)) return;
+        modal({
+          title: "부모님께 안심 메세지를 보냈어요 💌",
+          body: `${store.state.nickname || "학생"} 학생이 안전하게 탑승했어요.<br>실시간 위치로 함께 지켜봐요 😊`,
+          confirmText: "닫기",
+        });
+      }, 1000);
     }
   }
 

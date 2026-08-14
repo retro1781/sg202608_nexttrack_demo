@@ -1,0 +1,558 @@
+/* 넥스트랙 NEXTRACK — 시연용 모바일 SPA 스타일 (디자인 토큰: 프리로 앱 목업) */
+:root{
+  --navy:#12388F; --navy-d:#0E2C6E; --navy-dd:#071B4A;
+  --ink:#191F28; --g1:#4E5968; --g2:#6B7684; --g3:#8B95A1; --g4:#B0B8C1;
+  --line:#F2F4F6; --line2:#EEF0F3; --stroke:#EAECEF;
+  --soft:#EAF0FB; --soft2:#DCE6F7;
+  --green:#0E9E6E; --green-bg:#ECFDF5;
+  --amber:#D97706; --amber-bg:#FFFBEB;
+  --bg:#F4F5F7; --card:#fff;
+  --font:'Pretendard','Pretendard Variable',-apple-system,BlinkMacSystemFont,system-ui,'Segoe UI',Roboto,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{
+  font-family:var(--font);
+  background:#E7E5DF;
+  color:var(--ink);
+  display:flex;align-items:center;justify-content:center;
+  min-height:100dvh;overflow:hidden;
+}
+button{font-family:inherit;cursor:pointer}
+img{display:block}
+
+/* ── 무대 & 폰 프레임 ─────────────────────────────── */
+.stage{display:flex;align-items:center;justify-content:center;width:100%;height:100dvh;padding:20px}
+.phone{
+  background:#0B0B0F;border-radius:46px;padding:7px;
+  box-shadow:0 30px 70px rgba(25,31,40,.30);
+  flex:none;
+}
+.screen{
+  width:370px;height:812px;max-height:calc(100dvh - 54px);
+  background:var(--bg);border-radius:40px;overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+}
+#app{flex:1;display:flex;flex-direction:column;min-height:0;position:relative;z-index:0}
+
+/* ── 상태바 ──────────────────────────────────────── */
+.statusbar{
+  height:46px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:4px 26px 0;z-index:5;color:var(--ink);
+}
+.statusbar .time{font-size:14px;font-weight:700;letter-spacing:.3px}
+.statusbar .icons{display:flex;align-items:center;gap:7px}
+.screen[data-theme="dark"] .statusbar{color:#fff}
+
+/* ── 공통 화면 요소 ──────────────────────────────── */
+.view{flex:1;display:none;flex-direction:column;overflow:hidden;min-height:0}
+.view.active{display:flex}
+.appbar{height:54px;flex:none;display:flex;align-items:center;padding:0 14px;background:#fff}
+.appbar .back{width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.appbar .title{font-size:17px;font-weight:800;color:var(--ink);margin-left:4px}
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{width:0}
+.footer{flex:none;background:#fff;border-top:1px solid var(--line);padding:14px 22px 10px}
+.homebar{height:18px;display:flex;align-items:center;justify-content:center;margin-top:6px}
+.homebar>div{width:120px;height:4px;border-radius:2px;background:var(--ink);opacity:.16}
+.screen[data-theme="dark"] .homebar>div{background:#fff;opacity:.5}
+
+.cta{
+  width:100%;height:56px;border-radius:16px;background:var(--navy);color:#fff;
+  font-size:17px;font-weight:700;border:none;display:flex;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 10px 22px rgba(18,56,143,.30);transition:background .15s,transform .08s;
+}
+.cta:hover{background:var(--navy-d)}
+.cta:active{transform:translateY(1px)}
+.cta:disabled{background:#C5CCD6;box-shadow:none;cursor:not-allowed}
+.cta-soft{background:var(--soft);color:var(--navy);border:none;font-weight:700;border-radius:12px}
+.cta-soft:hover{background:var(--soft2)}
+
+.chip{font-size:13px;font-weight:600;border-radius:999px;padding:7px 14px}
+.online-badge{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;
+  color:var(--green);background:var(--green-bg);border-radius:999px;padding:5px 11px;
+}
+.online-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ── 01 로그인 ───────────────────────────────────── */
+#v-onboarding{background:#fff}
+.login{flex:1;display:flex;flex-direction:column;padding:0 28px;overflow-y:auto}
+.login-brand{display:flex;flex-direction:column;align-items:center;margin-top:15vh}
+.login-logo{width:210px;max-width:62%;height:auto}
+.login-form{margin-top:40px;display:flex;flex-direction:column;gap:12px}
+.in-field{display:block;background:#F7F8FA;border:1.5px solid #EEF0F3;border-radius:14px;padding:11px 16px;transition:border-color .15s,background .15s}
+.in-field:focus-within{border-color:var(--navy);background:#fff}
+.in-label{display:block;font-size:12px;font-weight:600;color:var(--g3)}
+.in-field input{width:100%;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;font-weight:600;color:var(--ink);margin-top:3px;padding:0}
+.in-field input::placeholder{color:#C5CCD6;font-weight:500}
+.login-links{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;font-size:13px;color:var(--g2);font-weight:600}
+.login-links i{width:1px;height:11px;background:#D1D6DB}
+.login-links span{cursor:pointer}
+.login-or{display:flex;align-items:center;gap:12px;margin:22px 0 16px;color:var(--g4);font-size:12px;font-weight:600}
+.login-or::before,.login-or::after{content:"";flex:1;height:1px;background:#EEF0F3}
+.kakao-btn{width:100%;height:52px;border-radius:14px;background:#FEE500;color:#191600;font-size:15px;font-weight:700;border:none;display:flex;align-items:center;justify-content:center;gap:8px}
+.kakao-btn:active{filter:brightness(.96)}
+.login-foot{text-align:center;margin-top:auto;padding:24px 0 8px;font-size:12px;color:#C5CCD6;font-weight:600}
+
+/* ── 02 홈 (고속버스 앱 스타일) ──────────────────── */
+.home-top{flex:none;display:flex;align-items:center;justify-content:space-between;padding:6px 20px 12px;background:#F4F5F7}
+.home-hi{font-size:19px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.home-sub{font-size:13px;color:var(--g2);font-weight:600;margin-top:3px}
+.home-bell{position:relative;width:42px;height:42px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(25,31,40,.06)}
+.home-bell .dot-red{position:absolute;top:10px;right:11px;width:7px;height:7px;border-radius:50%;background:#E11D48;border:1.5px solid #fff}
+.home-search{padding:18px 18px 20px}
+.home-time{margin-top:12px;border:1px solid var(--line2);border-radius:16px}
+/* 등교/하교 세그먼트 토글 */
+.seg{display:flex;background:#F2F4F6;border-radius:12px;padding:4px;margin-bottom:12px}
+.seg-btn{flex:1;height:38px;border:none;background:transparent;border-radius:9px;font-size:15px;font-weight:700;color:var(--g2);transition:.15s}
+.seg-btn.on{background:#fff;color:var(--navy);box-shadow:0 2px 6px rgba(25,31,40,.08)}
+.dir-hint{font-size:12.5px;font-weight:700;color:var(--g2);margin:0 2px 14px;text-align:center}
+.od-ic{width:30px;height:30px;border-radius:9px;background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+/* 자동완성 오버레이(학교/지역) */
+.picker-search{display:flex;align-items:center;gap:10px;margin:12px 16px 4px;background:#F2F4F6;border-radius:12px;padding:12px 14px;flex:none}
+.picker-search input{flex:1;border:none;background:transparent;outline:none;font-family:inherit;font-size:16px;font-weight:600;color:var(--ink)}
+.picker-search input::placeholder{color:#B0B8C1;font-weight:500}
+.picker-list{flex:1;overflow-y:auto;padding:6px 8px 20px}
+.picker-item{display:flex;align-items:flex-start;gap:12px;padding:13px 12px;border-radius:12px;cursor:pointer}
+.picker-item:active{background:#F2F4F6}
+.pi-text{display:flex;flex-direction:column;gap:3px;min-width:0}
+.pi-name{font-size:16px;font-weight:700;color:var(--ink)}
+.pi-sub{font-size:12px;color:var(--g3);font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.picker-group{width:100%;display:flex;align-items:center;justify-content:space-between;gap:8px;background:none;border:none;font-family:inherit;cursor:pointer;font-size:13.5px;font-weight:800;color:var(--ink);padding:15px 12px}
+.picker-group:active{background:#F7F8FA}
+.pg-right{display:flex;align-items:center;gap:8px}
+.pg-count{font-size:11.5px;font-weight:700;color:var(--g3);background:var(--line);border-radius:999px;padding:2px 9px}
+.pg-chev{transition:transform .2s}
+.picker-acc.open .pg-chev{transform:rotate(180deg)}
+.picker-acc{border-bottom:1px solid var(--line)}
+.picker-acc:last-child{border-bottom:none}
+.picker-acc-body{display:none;padding-bottom:6px}
+.picker-acc.open .picker-acc-body{display:block}
+.picker-empty{padding:30px;text-align:center;color:var(--g3);font-size:14px;font-weight:600}
+/* "여기가 맞나요?" 지도 확인 팝업 */
+.map-dim{position:absolute;inset:0;z-index:45;display:flex;align-items:center;justify-content:center;background:rgba(15,23,42,.5);padding:22px;opacity:0;transition:opacity .2s}
+.map-dim.show{opacity:1}
+.map-card{width:100%;max-width:344px;background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 20px 50px rgba(15,23,42,.32);transform:translateY(12px) scale(.97);transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.map-dim.show .map-card{transform:none}
+.map-frame{height:320px;background:#EEF0F3;position:relative}
+.map-frame iframe{width:100%;height:100%;border:0;display:block}
+.map-frame .map-img{width:100%;height:100%;object-fit:cover;display:block}
+.map-frame .map-canvas{width:100%;height:100%}
+.map-frame .leaflet-container{width:100%;height:100%;background:#EEF0F3}
+.map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--g3);font-size:13.5px;font-weight:600}
+.map-info{padding:15px 18px 2px}
+.map-name{font-size:17px;font-weight:800;color:var(--ink)}
+.map-addr{font-size:12.5px;color:var(--g3);font-weight:600;margin-top:4px;line-height:1.4}
+.map-q{padding:12px 18px 0;font-size:14.5px;font-weight:800;color:var(--navy)}
+.map-btns{display:flex;gap:10px;padding:12px 18px 18px}
+.map-btns button{flex:1;height:48px;border-radius:12px;font-size:15px;font-weight:700;border:none;font-family:inherit}
+.map-cancel{background:var(--line);color:var(--g1)}
+.map-ok{background:var(--navy);color:#fff}
+.map-ok:active{background:var(--navy-d)}
+/* 탑승 완료 + 모의 실시간 위치 모달 */
+.map-card.board .board-canvas{width:100%;height:100%}
+.board-body{padding:14px 18px 18px}
+.board-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.live-tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#E11D48}
+.live-blip{width:8px;height:8px;border-radius:50%;background:#E11D48;animation:blink 1.2s infinite}
+.board-eta{font-size:12.5px;font-weight:700;color:var(--g2)}
+.board-ok{margin-top:14px;height:50px}
+.bus-dot{width:30px;height:30px;border-radius:50%;background:#fff;box-shadow:0 3px 10px rgba(15,23,42,.28);display:flex;align-items:center;justify-content:center;font-size:16px;border:2px solid #12388F}
+
+/* 예약 완료(confirm) */
+.cf-route{font-size:19px;font-weight:800;color:var(--ink);text-align:center}
+.cf-route .code{color:var(--navy)}
+.cf-sub{font-size:13px;color:var(--g2);font-weight:600;text-align:center;margin-top:4px;margin-bottom:2px}
+
+/* 내 탑승권 pass */
+.ticket.standalone{margin:0}
+.tk-pill{display:inline-block;font-size:11.5px;font-weight:800;color:#fff;background:var(--navy);border-radius:999px;padding:5px 12px;margin-bottom:8px}
+
+/* 실시간 탑승 페이지 */
+#v-ride{background:#EEF0F3}
+.ride-map{flex:1;position:relative;min-height:0;background:#EEF0F3}
+.ride-canvas{width:100%;height:100%}
+.ride-map .leaflet-container{width:100%;height:100%;background:#EEF0F3}
+.ride-panel{flex:none;background:#fff;border-top:1px solid var(--line);padding:14px 20px calc(14px + env(safe-area-inset-bottom))}
+.ride-hd{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ride-route{font-size:16px;font-weight:800;color:var(--ink)}
+.ride-route .code{color:var(--navy);margin-left:2px}
+.ride-eta{font-size:12px;font-weight:700;color:var(--navy);text-align:right;flex:none}
+.ride-panel .g-push.in-modal{margin:10px 0 0}
+#alightBtn{margin-top:12px}
+#alightBtn.ready{background:var(--green)}
+#alightBtn.ready:active{background:#0B7E58}
+
+/* 하차 QR 팝업 */
+.alight-pop{padding:22px 20px 18px;text-align:center}
+.alight-route{font-size:17px;font-weight:800;color:var(--ink);margin-top:8px}
+.alight-pop .qr-wrap{margin:14px auto 8px}
+.alight-note{font-size:12.5px;color:var(--green);font-weight:700;margin-top:8px}
+.hs-head{font-size:16px;font-weight:800;color:var(--ink);margin-bottom:14px}
+.home-od{position:relative;border:1px solid var(--line2);border-radius:16px;padding:2px 4px}
+.home-od .od-row{padding:14px 14px}
+.home-od .od-connector{left:22px;top:42px;height:22px}
+.swap-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;background:#fff;border:1px solid #E5E8EB;box-shadow:0 3px 10px rgba(25,31,40,.10);display:flex;align-items:center;justify-content:center;z-index:2}
+.swap-btn:active{transform:translateY(-50%) scale(.92)}
+.section-title{font-size:15px;font-weight:800;color:var(--ink);margin:22px 2px 12px}
+.quick-row{display:flex;gap:8px;flex-wrap:wrap}
+.quick{border:1px solid var(--stroke);background:#fff;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:700;color:var(--g1)}
+.quick:active{background:#F2F4F6}
+.event-banner{margin-top:22px;background:linear-gradient(135deg,#12388F,#0E2C6E);border-radius:18px;padding:18px 20px;display:flex;align-items:center;justify-content:space-between;color:#fff;box-shadow:0 12px 26px rgba(18,56,143,.24)}
+.eb-title{font-size:16px;font-weight:800}
+.eb-sub{font-size:12.5px;color:rgba(255,255,255,.82);font-weight:600;margin-top:4px}
+.eb-badge{font-size:11px;font-weight:800;background:rgba(255,255,255,.2);border-radius:7px;padding:5px 9px;letter-spacing:.05em}
+/* 내 탑승권 */
+.ticket-empty{display:flex;align-items:center;gap:14px;padding:20px 18px}
+.ticket-empty .te-ic{width:46px;height:46px;border-radius:12px;background:#F2F4F6;display:flex;align-items:center;justify-content:center;flex:none}
+.te-t{font-size:15px;font-weight:700;color:var(--ink)}
+.te-d{font-size:13px;color:var(--g3);font-weight:600;margin-top:2px}
+.ticket-mini{padding:16px 18px;cursor:pointer;border:1px solid #E7ECF5}
+.ticket-mini:active{background:#FBFCFE}
+.tm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.tm-live{font-size:11.5px;font-weight:800;color:#0E9E6E;background:#ECFDF5;border-radius:7px;padding:4px 9px}
+.tm-code{font-size:13px;font-weight:800;color:var(--navy)}
+.tm-route{font-size:18px;font-weight:800;color:var(--ink)}
+.tm-line{display:flex;align-items:center;gap:8px;margin-top:10px}
+.tm-when{font-size:13px;color:var(--g2);font-weight:600}
+.tm-when b{color:var(--ink);font-weight:800;font-size:15px}
+.tm-seat{margin-left:auto;font-size:12.5px;font-weight:800;color:var(--navy);background:var(--soft);border-radius:8px;padding:5px 10px}
+.tm-cta{margin-top:14px;padding-top:12px;border-top:1px dashed #E5E8EB;font-size:14px;font-weight:700;color:var(--navy);text-align:center}
+/* 하단 탭바 */
+.tabbar{flex:none;display:flex;background:#fff;border-top:1px solid var(--line);padding:8px 0 calc(8px + env(safe-area-inset-bottom))}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#B0B8C1;font-size:11px;font-weight:700;cursor:pointer}
+.tab.on{color:var(--navy)}
+
+/* ── 08 마이페이지 ───────────────────────────────── */
+.my-top{flex:none;display:flex;align-items:center;gap:14px;padding:8px 20px 16px;background:#F4F5F7}
+.my-avatar{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,#12388F,#2B54B0);display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px;font-weight:800;flex:none}
+.my-name{font-size:18px;font-weight:800;color:var(--ink)}
+.my-id{font-size:12.5px;color:var(--g2);font-weight:600;margin-top:2px}
+.my-grade{font-size:12px;font-weight:800;color:var(--navy);background:var(--soft);border-radius:999px;padding:7px 12px;flex:none}
+.my-summary{background:#fff;border-radius:18px;box-shadow:0 4px 16px rgba(25,31,40,.06);display:flex;align-items:center;padding:16px 0}
+.ms-cell{flex:1;text-align:center}
+.ms-n{font-size:19px;font-weight:800;color:var(--ink)}
+.ms-l{font-size:12px;color:var(--g3);font-weight:600;margin-top:3px}
+.ms-div{width:1px;height:34px;background:var(--line)}
+.my-menu{overflow:hidden}
+.mi{display:flex;align-items:center;gap:13px;padding:16px 18px;border-bottom:1px solid var(--line);cursor:pointer}
+.mi:last-child{border-bottom:none}
+.mi:active{background:#F7F8FA}
+.mi-ic{font-size:18px;width:22px;text-align:center;flex:none}
+.mi-t{flex:1;font-size:15px;font-weight:700;color:var(--ink)}
+.mi-badge{font-size:11px;font-weight:800;color:var(--green);background:var(--green-bg);border-radius:6px;padding:3px 8px}
+.mi-arw{color:#C5CCD6;font-size:18px;font-weight:700}
+.my-ver{text-align:center;margin-top:22px;font-size:12px;color:#B0B8C1;font-weight:600;line-height:1.6}
+
+/* 탑승 로그 */
+.ridelog{padding:16px 18px}
+.rl-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rl-big{font-size:16px;font-weight:800;color:var(--ink)}
+.rl-big b{color:var(--navy);font-size:20px}
+.rl-sub{font-size:12px;color:var(--g3);font-weight:600;margin-top:2px}
+.rl-badge2{font-size:11.5px;font-weight:700;color:var(--g3)}
+.rl-list{margin-top:10px}
+.rl-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid var(--line)}
+.rl-route{font-size:14.5px;font-weight:700;color:var(--ink)}
+.rl-date{font-size:12px;color:var(--g3);font-weight:600;margin-top:2px}
+.rl-badge{font-size:11.5px;font-weight:700;color:var(--green);background:var(--green-bg);border-radius:7px;padding:4px 9px}
+.rl-row.rl-hidden{display:none}
+.rl-more{width:100%;margin-top:8px;padding:11px;border:none;background:var(--soft);color:var(--navy);border-radius:12px;font-size:14px;font-weight:700;font-family:inherit}
+.rl-more:active{background:var(--soft2)}
+
+/* 실시간 탑승 패널 안내문 */
+.ride-note{font-size:12.5px;font-weight:600;color:var(--g2);margin-top:8px}
+
+/* 탑승 중 플로팅 배너 (카카오 택시 운행중처럼) */
+.ride-banner{
+  position:absolute;left:12px;right:12px;bottom:calc(74px + env(safe-area-inset-bottom));z-index:20;
+  background:linear-gradient(135deg,#12388F,#0E2C6E);color:#fff;border-radius:15px;padding:13px 15px;
+  display:flex;align-items:center;gap:11px;box-shadow:0 12px 28px rgba(18,56,143,.36);cursor:pointer;
+  animation:slideUp .25s ease;
+}
+.ride-banner[hidden]{display:none}
+.ride-banner:active{transform:translateY(1px)}
+.rb-blip{width:9px;height:9px;border-radius:50%;background:#34D399;flex:none;box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:blink 1.2s infinite}
+.rb-txt{flex:1;font-size:14px;font-weight:700}
+.rb-txt span{font-weight:600;opacity:.82}
+
+/* ── 마이 서브: 탑승권 내역 ──────────────────────── */
+.pass{background:linear-gradient(135deg,#12388F,#0E2C6E);border-radius:18px;padding:18px;color:#fff;box-shadow:0 12px 26px rgba(18,56,143,.24);cursor:pointer}
+.pass:active{transform:scale(.99)}
+.pass-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.pass-live{font-size:11.5px;font-weight:800;background:rgba(255,255,255,.2);border-radius:7px;padding:4px 9px}
+.pass-code{font-size:14px;font-weight:800;color:#BBD0FF}
+.pass-route{font-size:19px;font-weight:800;letter-spacing:-.02em}
+.pass-meta{font-size:12.5px;color:rgba(255,255,255,.82);font-weight:600;margin-top:6px}
+.pass-foot{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px dashed rgba(255,255,255,.25);font-size:12.5px;font-weight:700}
+.pass-go{color:#fff}
+.past-row{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--line)}
+.past-row:last-child{border-bottom:none}
+.pr-route{font-size:14.5px;font-weight:700;color:var(--ink)}
+.pr-date{font-size:12px;color:var(--g3);font-weight:600;margin-top:3px}
+.pr-done{font-size:11.5px;font-weight:700;color:var(--g2);background:var(--line);border-radius:7px;padding:5px 10px}
+
+/* ── 마이 서브: 결제 수단 ────────────────────────── */
+.pay-method-card{display:flex;align-items:center;gap:13px;padding:16px 18px}
+.pmc-badge{width:40px;height:26px;border-radius:6px;background:#191F28;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;letter-spacing:.06em;flex:none}
+.pmc-name{font-size:15px;font-weight:700;color:var(--ink)}
+.pmc-no{font-size:12.5px;color:var(--g3);font-weight:600;margin-top:3px}
+.pmc-def{font-size:11px;font-weight:800;color:var(--navy);background:var(--soft);border-radius:6px;padding:4px 8px;flex:none}
+.add-method{width:100%;margin-top:12px;height:48px;border-radius:14px;background:#fff;border:1.5px dashed #C9D2E0;color:var(--g1);font-size:14px;font-weight:700}
+.add-method:active{background:#F7F8FA}
+.pay-sub{background:#fff;border-radius:18px;box-shadow:0 4px 16px rgba(25,31,40,.06);padding:18px}
+.ps-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ps-title{font-size:16px;font-weight:800;color:var(--ink)}
+.ps-badge{font-size:11.5px;font-weight:800;color:var(--green);background:var(--green-bg);border-radius:7px;padding:4px 9px}
+.ps-row{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--g1);font-weight:500;padding:7px 0}
+.ps-row b{color:var(--ink);font-weight:700}
+.ps-cancel{width:100%;margin-top:12px;height:44px;border-radius:12px;background:var(--line);border:none;color:var(--g1);font-size:14px;font-weight:700}
+.pay-hist-row{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid var(--line)}
+.pay-hist-row:last-child{border-bottom:none}
+.ph-t{font-size:14.5px;font-weight:700;color:var(--ink)}
+.ph-d{font-size:12px;color:var(--g3);font-weight:600;margin-top:3px}
+.ph-amt{font-size:15px;font-weight:800;color:var(--ink)}
+.ph-amt.discount{color:var(--navy)}
+.pay-hist-empty{padding:20px;text-align:center;color:var(--g3);font-size:13.5px;font-weight:600}
+.pay-guard{display:flex;align-items:flex-start;gap:8px;margin-top:16px;padding:0 4px}
+.pay-guard span{font-size:12.5px;line-height:1.5;color:var(--g3);font-weight:500}
+
+/* ── 마이 서브: 공지사항(아코디언) ───────────────── */
+.notice-list{display:flex;flex-direction:column;gap:10px}
+.ntc{background:#fff;border-radius:16px;box-shadow:0 4px 16px rgba(25,31,40,.05);overflow:hidden}
+.ntc-head{display:flex;align-items:center;gap:10px;padding:16px 18px;cursor:pointer}
+.ntc-tag{display:inline-block;font-size:10.5px;font-weight:800;border-radius:6px;padding:3px 8px;margin-bottom:7px}
+.ntc-tag.안내,.ntc-tag.이용안내{color:var(--navy);background:var(--soft)}
+.ntc-tag.이벤트{color:#D97706;background:#FFFBEB}
+.ntc-title{font-size:15px;font-weight:700;color:var(--ink);line-height:1.35}
+.ntc-date{font-size:12px;color:var(--g3);font-weight:600;margin-top:5px}
+.ntc-chev{flex:none;transition:transform .22s}
+.ntc.open .ntc-chev{transform:rotate(180deg)}
+.ntc-body{max-height:0;overflow:hidden;transition:max-height .28s ease,padding .28s ease;padding:0 18px;font-size:13.5px;line-height:1.6;color:var(--g1);font-weight:500}
+.ntc.open .ntc-body{max-height:240px;padding:0 18px 18px}
+
+/* ── 02b 입력 필드 공통 ──────────────────────────── */
+.pad{padding:8px 24px 0}
+.h1{font-size:27px;font-weight:800;color:var(--ink);line-height:1.28;letter-spacing:-.03em}
+.lead{margin-top:12px;font-size:15px;color:var(--g2);line-height:1.5}
+.card{background:#fff;border-radius:20px;box-shadow:0 4px 16px rgba(25,31,40,.06);border:1px solid var(--line2)}
+.od-row{display:flex;align-items:center;gap:14px;padding:16px 18px;position:relative}
+.od-row .lab{font-size:12px;font-weight:600;color:var(--g3)}
+.od-row .val{font-size:16px;font-weight:700;color:var(--ink);margin-top:2px}
+.dot-o{width:13px;height:13px;border-radius:50%;background:var(--navy);box-shadow:0 0 0 4px var(--soft2)}
+.dot-d{width:13px;height:13px;border-radius:3px;background:var(--ink)}
+.od-line{height:1px;background:var(--line);margin:0 18px 0 46px}
+.od-connector{position:absolute;left:24px;top:44px;height:24px;border-left:2px dashed #B7C8EC}
+.field{margin-top:14px;padding:16px 18px;display:flex;align-items:center;gap:14px}
+.field .ic{width:34px;height:34px;border-radius:10px;background:var(--soft);display:flex;align-items:center;justify-content:center;flex:none}
+.info{margin-top:18px;display:flex;align-items:flex-start;gap:10px;background:var(--soft);border-radius:14px;padding:14px 16px}
+.info p{margin:0;font-size:13.5px;line-height:1.5;color:var(--navy-d);font-weight:600}
+.chev{margin-left:auto;flex:none}
+.tap{cursor:pointer;transition:background .12s}
+.tap:active{background:#F2F4F6}
+.od-row.tap:active,.field.tap:active{background:#F2F4F6}
+.find{margin-left:auto;font-size:13px;font-weight:700;color:var(--navy);background:var(--soft);border-radius:8px;padding:6px 12px;flex:none}
+.val.placeholder{color:#C5CCD6;font-weight:500}
+
+/* ── 주소 검색 오버레이 ──────────────────────────── */
+.overlay{
+  position:absolute;inset:0;z-index:30;background:#fff;display:none;flex-direction:column;
+}
+.overlay.show{display:flex;animation:slideUp .22s ease}
+@keyframes slideUp{from{transform:translateY(24px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.ov-head{height:54px;flex:none;display:flex;align-items:center;padding:0 14px;border-bottom:1px solid var(--line);margin-top:46px}
+.ov-back{width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.ov-title{font-size:17px;font-weight:800;color:var(--ink);margin-left:4px}
+.ov-body{flex:1;overflow:hidden;position:relative}
+.ov-body>*{width:100%!important;height:100%!important}
+
+/* ── 하교시간 바텀시트 ──────────────────────────── */
+.sheet-dim{position:absolute;inset:0;z-index:31;background:rgba(15,23,42,.42);opacity:0;pointer-events:none;transition:opacity .22s}
+.sheet-dim.show{opacity:1;pointer-events:auto}
+.sheet{
+  position:absolute;left:0;right:0;bottom:0;z-index:32;background:#fff;
+  border-radius:24px 24px 0 0;padding:10px 20px calc(18px + env(safe-area-inset-bottom));
+  transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 -12px 40px rgba(15,23,42,.18);max-height:72%;display:flex;flex-direction:column;
+}
+.sheet.show{transform:translateY(0)}
+.sheet-grip{width:40px;height:4px;border-radius:2px;background:#E5E8EB;margin:6px auto 12px;flex:none}
+.sheet-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:10px;flex:none}
+.sheet-list{overflow-y:auto;display:flex;flex-direction:column}
+.time-opt{display:flex;align-items:center;justify-content:space-between;padding:15px 6px;border-bottom:1px solid var(--line);cursor:pointer;font-size:16px;font-weight:600;color:var(--ink)}
+.time-opt:last-child{border-bottom:none}
+.time-opt .tag2{font-size:11.5px;font-weight:700;color:var(--g3);background:var(--line);border-radius:6px;padding:3px 8px}
+.time-opt.on{color:var(--navy);font-weight:800}
+.time-opt.on .check{color:var(--navy)}
+.time-opt .check{opacity:0}
+.time-opt.on .check{opacity:1}
+
+/* ── 03 결과 ─────────────────────────────────────── */
+.search-head{background:#fff;padding:0 14px 16px;flex:none}
+.search-pill{display:flex;align-items:center;gap:8px;background:var(--line);border-radius:12px;padding:11px 14px;margin:0 6px}
+.search-pill .q{flex:1;font-size:13.5px;font-weight:600;color:var(--g1)}
+.result-title{font-size:18px;font-weight:800;color:var(--ink);margin-bottom:14px;letter-spacing:-.02em}
+.route-card{background:#fff;border-radius:20px;padding:18px;position:relative}
+.route-card.rec{border:2px solid var(--navy);box-shadow:0 8px 24px rgba(18,56,143,.14)}
+.route-card.plain{border:1px solid var(--stroke);margin-top:14px}
+.rec-tag{position:absolute;top:-11px;left:18px;background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px}
+.rc-head{display:flex;align-items:center;justify-content:space-between}
+.rc-name{font-size:18px;font-weight:800;color:var(--ink)}
+.rc-name .code{color:var(--navy)}
+.rc-name .code.dim{color:var(--g2)}
+.seat-badge{font-size:12px;font-weight:700;border-radius:8px;padding:5px 9px}
+.seat-badge.ok{color:var(--green);background:var(--green-bg)}
+.seat-badge.low{color:var(--amber);background:var(--amber-bg)}
+.seat-badge.full{color:#E11D48;background:#FFF1F2}
+.timeline{display:flex;align-items:center;gap:10px;margin-top:14px}
+.timeline .t b{font-size:16px;font-weight:800;color:var(--ink);display:block;text-align:center}
+.timeline .t span{font-size:11px;color:var(--g3);font-weight:600;display:block;text-align:center;margin-top:1px}
+.timeline .bar{flex:1;position:relative;height:2px;background:#E5E8EB;margin:0 2px}
+.timeline .bar em{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#fff;font-size:10px;font-weight:700;color:var(--navy);padding:0 6px;font-style:normal;white-space:nowrap}
+.tags{display:flex;gap:6px;margin-top:14px;flex-wrap:wrap}
+.tag{font-size:11.5px;font-weight:600;color:var(--g1);background:var(--line);border-radius:7px;padding:5px 9px}
+.hr{height:1px;background:var(--line);margin:16px 0}
+.rc-foot{display:flex;align-items:flex-end;justify-content:space-between}
+.price{font-size:20px;font-weight:800;color:var(--ink)}
+.price small{font-size:14px;font-weight:700}
+.price-sub{font-size:12px;color:var(--g3);font-weight:600;margin-top:2px}
+.btn-sm{height:44px;padding:0 22px;border-radius:13px;background:var(--navy);color:#fff;font-size:15px;font-weight:700;border:none}
+.btn-sm.soft{height:40px;padding:0 18px;border-radius:12px;background:var(--soft);color:var(--navy);font-size:14px}
+.dashed{margin-top:16px;border:1.5px dashed #D1D6DB;border-radius:18px;padding:18px;text-align:center;background:#fff}
+.dashed .t{font-size:14px;font-weight:700;color:var(--g1)}
+.dashed .d{font-size:13px;color:var(--g3);margin-top:4px;line-height:1.5}
+.dashed .go{margin-top:12px;font-size:14px;font-weight:700;color:var(--navy)}
+
+/* ── 04 좌석 ─────────────────────────────────────── */
+.mini-timeline{background:#fff;border-radius:16px;border:1px solid var(--line2);padding:14px 16px;display:flex;align-items:center;gap:10px}
+.legend{display:flex;gap:10px}
+.legend .lg{display:flex;align-items:center;gap:4px}
+.legend .sw{width:11px;height:11px;border-radius:3px}
+.legend span{font-size:10.5px;color:var(--g3);font-weight:600}
+.bus{margin-top:16px;background:#fff;border:1px solid var(--line2);border-radius:22px;padding:18px 20px;box-shadow:0 4px 16px rgba(25,31,40,.05)}
+.bus-head{display:flex;align-items:center;justify-content:space-between;padding-bottom:14px;border-bottom:1px dashed #E5E8EB;margin-bottom:16px}
+.bus-head .drv{display:flex;align-items:center;gap:7px;color:var(--g3);font-size:12px;font-weight:700}
+.bus-head .door{font-size:12px;font-weight:700;color:var(--navy);background:var(--soft);border-radius:7px;padding:4px 10px}
+.seat-rows{display:flex;flex-direction:column;gap:9px}
+.seat-row{display:flex;gap:9px;align-items:center;justify-content:center}
+.aisle{width:26px}
+.seat{
+  width:42px;height:46px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:700;border:1.5px solid #B7C8EC;background:#fff;color:var(--navy);
+  transition:transform .08s,background .12s,border-color .12s;
+}
+.seat.sel{background:var(--navy);color:#fff;border-color:var(--navy);box-shadow:0 6px 14px rgba(18,56,143,.35)}
+.seat.taken{background:#F1F3F6;color:#C5CCD6;border-color:#F1F3F6;cursor:not-allowed}
+.seat.avail:active{transform:scale(.94)}
+.seat.just{animation:pop .5s}
+@keyframes pop{0%{box-shadow:0 0 0 0 rgba(225,29,72,.35)}100%{box-shadow:0 0 0 12px rgba(225,29,72,0)}}
+.seat-foot{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.seat-foot .lab{font-size:12px;color:var(--g3);font-weight:600}
+.seat-foot .sel-label{font-size:17px;font-weight:800;color:var(--navy)}
+.seat-foot .p{font-size:18px;font-weight:800;color:var(--ink)}
+
+/* ── 05 결제 ─────────────────────────────────────── */
+.pay-card{background:#fff;border-radius:20px;padding:18px;box-shadow:0 4px 16px rgba(25,31,40,.06)}
+.pay-head{display:flex;align-items:center;gap:13px}
+.pay-ic{width:48px;height:48px;border-radius:14px;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none}
+.pay-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.pay-row span:first-child{font-size:14px;color:var(--g1);font-weight:500}
+.pay-row b{font-size:14px;font-weight:700;color:var(--ink)}
+.pay-total{display:flex;justify-content:space-between;align-items:flex-end}
+.pay-total .l{font-size:15px;font-weight:800}
+.pay-total .v{font-size:24px;font-weight:800}
+.method{display:flex;align-items:center;gap:12px;padding:14px 0}
+.toss-badge{width:36px;height:24px;border-radius:6px;background:#0064FF;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+.test-badge{width:40px;height:24px;border-radius:6px;background:#191F28;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;letter-spacing:.06em}
+.radio{width:22px;height:22px;border-radius:50%;border:2px solid #D1D6DB}
+.radio.on{border:none;background:var(--navy);display:flex;align-items:center;justify-content:center}
+
+/* ── 06 완료 / 내 탑승권 + QR (스크롤 없이 한 화면) ── */
+#v-done{background:var(--bg);display:flex;flex-direction:column}
+.done-body{flex:1;min-height:0;overflow:hidden}
+.done-hero{background:linear-gradient(165deg,var(--navy),var(--navy-d));padding:22px 24px 46px;color:#fff;text-align:center;position:relative;flex:none}
+.done-check{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.done-hero h2{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.done-hero p{margin:7px 0 0;font-size:13.5px;color:rgba(255,255,255,.82);line-height:1.5}
+.ticket{background:#fff;border-radius:22px;margin:-34px 20px 0;padding:18px 20px;box-shadow:0 14px 30px rgba(25,31,40,.12);position:relative;z-index:2;flex:none}
+.ticket .tk-route{font-size:19px;font-weight:800;color:var(--ink);text-align:center}
+.ticket .tk-seat{font-size:13px;color:var(--g2);font-weight:600;text-align:center;margin-top:4px}
+.qr-wrap{margin:14px auto 6px;width:158px;height:158px;background:#fff;border-radius:18px;border:1px solid var(--line2);padding:10px;display:flex;align-items:center;justify-content:center}
+.qr-wrap svg,.qr-wrap img{width:100%;height:100%}
+.tk-token{text-align:center;font-size:12px;color:var(--g3);font-weight:600;letter-spacing:.02em}
+.tk-dashline{border:none;border-top:1.5px dashed #E5E8EB;margin:14px -20px}
+.done-actions{flex:none;padding:14px 20px calc(12px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
+.cta.ghost{background:var(--soft);color:var(--navy);box-shadow:none}
+#boardBtn.done{background:var(--green)}
+.g-push.in-modal{margin:6px 0 0;text-align:left}
+.notify{margin:14px 20px 0;background:var(--soft);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:12px}
+.notify .ic{width:36px;height:36px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;flex:none}
+.notify .t{font-size:13.5px;font-weight:700;color:var(--navy-d)}
+.notify .d{font-size:12px;color:var(--g2);font-weight:600;margin-top:2px}
+/* 보호자에게 전송된 알림(모의 푸시) */
+.g-push{margin:14px 20px 0;background:#111827;border-radius:16px;padding:14px 16px;color:#fff;box-shadow:0 12px 26px rgba(17,24,39,.28);animation:slideUp .3s ease}
+.g-push-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.g-app{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#9CA3AF}
+.g-dot{width:8px;height:8px;border-radius:3px;background:#12388F}
+.g-now{font-size:11px;color:#6B7280;font-weight:600}
+.g-push-body{font-size:14px;line-height:1.5;font-weight:600}
+.g-push-sub{margin-top:8px;font-size:12px;color:#9CA3AF;font-weight:600}
+.login-dash{display:block;text-align:center;margin-top:12px;font-size:12px;color:#B0B8C1;font-weight:700;text-decoration:none}
+
+/* ── 07 노선 후보 ────────────────────────────────── */
+.cand-hero{background:linear-gradient(165deg,var(--navy),var(--navy-d));border-radius:22px;padding:22px;color:#fff;box-shadow:0 14px 30px rgba(18,56,143,.30)}
+.cand-hero .top{display:flex;align-items:center;justify-content:space-between}
+.cand-hero .badge{font-size:12px;font-weight:700;background:rgba(255,255,255,.2);border-radius:7px;padding:4px 10px}
+.cand-hero h3{margin:14px 0 0;font-size:21px;font-weight:800;letter-spacing:-.02em}
+.cand-hero .sub{font-size:13px;color:rgba(255,255,255,.82);font-weight:600;margin-top:4px}
+.cand-count{display:flex;align-items:flex-end;gap:8px;margin-top:22px}
+.cand-count .big{font-size:46px;font-weight:800;line-height:1;letter-spacing:-.03em}
+.cand-count .of{font-size:20px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:6px}
+.cand-count .left{margin-left:auto;font-size:13px;font-weight:700;background:rgba(255,255,255,.18);border-radius:8px;padding:6px 11px;margin-bottom:4px}
+.progress{height:10px;background:rgba(255,255,255,.22);border-radius:6px;margin-top:14px;overflow:hidden}
+.progress>div{height:100%;background:#fff;border-radius:6px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.cand-note{font-size:13px;font-weight:600;color:rgba(255,255,255,.9);margin-top:12px}
+.avatars{display:flex;align-items:center;gap:12px;background:#fff;border-radius:18px;padding:16px;margin-top:14px;box-shadow:0 4px 16px rgba(25,31,40,.05)}
+.ava-stack{display:flex}
+.ava{width:34px;height:34px;border-radius:50%;border:2px solid #fff;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;margin-left:-8px}
+.ava:first-child{margin-left:0}
+
+/* 토스트 */
+.toast{
+  position:absolute;left:50%;bottom:96px;transform:translateX(-50%) translateY(10px);
+  background:rgba(25,31,40,.94);color:#fff;font-size:13px;font-weight:600;
+  padding:11px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:20;white-space:nowrap;
+  max-width:90%;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── 모달(팝업) ─────────────────────────────────── */
+.modal-dim{
+  position:absolute;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;
+  background:rgba(15,23,42,.42);padding:32px;opacity:0;transition:opacity .2s;
+}
+.modal-dim.show{opacity:1}
+.modal-card{
+  width:100%;max-width:300px;background:#fff;border-radius:20px;padding:24px 22px 18px;text-align:center;
+  box-shadow:0 20px 50px rgba(15,23,42,.28);transform:translateY(12px) scale(.96);transition:transform .22s cubic-bezier(.2,.8,.2,1);
+}
+.modal-dim.show .modal-card{transform:translateY(0) scale(1)}
+.modal-title{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:8px}
+.modal-body{font-size:14.5px;line-height:1.55;color:var(--g1);font-weight:500}
+.modal-btn{margin-top:20px;width:100%;height:50px;border-radius:14px;background:var(--navy);color:#fff;font-size:16px;font-weight:700;border:none}
+.modal-btn:active{background:var(--navy-d)}
+
+/* ════════════════════════════════════════════════════════════
+   모바일/터치 기기: 폰 목업 프레임 + 가짜 상태바 없이 화면 전체로.
+   (파일 맨 끝에 두어 뒤 규칙들의 소스순서 우선권을 확보)
+   ════════════════════════════════════════════════════════════ */
+@media (max-width:480px), (pointer:coarse) and (max-width:900px){
+  body{background:#fff;align-items:stretch}
+  .stage{padding:0;width:100%;height:100dvh}
+  .phone{border-radius:0;padding:0;box-shadow:none;width:100%;height:100dvh}
+  .screen{width:100%;height:100dvh;max-height:none;border-radius:0;padding-top:env(safe-area-inset-top)}
+  .statusbar{display:none}       /* OS 상태바가 있으니 가짜 시간·배터리 숨김 */
+  .ov-head{margin-top:0}         /* 상태바 자리 보정 제거 */
+}

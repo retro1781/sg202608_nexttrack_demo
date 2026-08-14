@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>넥스트랙 실시간 관제 · LIVE</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="icon" type="image/svg+xml" href="/svg/nextrack_symbol.svg">
+<style>
+  :root{
+    --bg:#0B1020; --panel:#141B2E; --panel2:#1B2440; --line:#26304C;
+    --ink:#E7ECF5; --muted:#93A0BD; --dim:#5B6688;
+    --blue:#3B82F6; --cyan:#22D3EE; --green:#10B981; --amber:#F59E0B; --pink:#F472B6;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:radial-gradient(1200px 600px at 80% -10%,#16224a 0,transparent 60%),var(--bg);
+    color:var(--ink);font-family:'Pretendard',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;
+    min-height:100dvh;padding:22px 26px 30px;
+  }
+  a{color:inherit}
+  .top{display:flex;align-items:center;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:44px;height:44px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;padding:7px}
+  .logo img{width:100%;height:100%;object-fit:contain}
+  .brand h1{margin:0;font-size:20px;font-weight:800;letter-spacing:-.02em}
+  .brand p{margin:2px 0 0;font-size:12.5px;color:var(--muted);font-weight:600}
+  .live-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(16,185,129,.14);color:#34D399;border:1px solid rgba(16,185,129,.35);border-radius:999px;padding:7px 13px;font-size:13px;font-weight:800;letter-spacing:.04em}
+  .live-badge .pulse{width:9px;height:9px;border-radius:50%;background:#34D399;box-shadow:0 0 0 0 rgba(52,211,153,.7);animation:pulse 1.5s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(52,211,153,.6)}70%{box-shadow:0 0 0 10px rgba(52,211,153,0)}100%{box-shadow:0 0 0 0 rgba(52,211,153,0)}}
+  .spacer{flex:1}
+  .btn{border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:11px;padding:11px 16px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s}
+  .btn:hover{background:#222c4d;border-color:#3a466f}
+  .btn.primary{background:linear-gradient(135deg,#2563EB,#22D3EE);border:none;color:#04122e}
+  .btn.stop{background:rgba(244,63,94,.15);border-color:rgba(244,63,94,.4);color:#FB7185}
+
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px}
+  .stat .k{font-size:13px;color:var(--muted);font-weight:700}
+  .stat .v{font-size:34px;font-weight:900;letter-spacing:-.03em;margin-top:6px;line-height:1}
+  .stat .v small{font-size:17px;color:var(--dim);font-weight:800}
+  .stat.accent .v{color:var(--cyan)}
+  .stat.green .v{color:#34D399}
+  .stat.amber .v{color:#FBBF24}
+
+  .grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+  @media (max-width:880px){ .grid{grid-template-columns:1fr} .stats{grid-template-columns:repeat(2,1fr)} }
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+  .panel h2{margin:0 0 16px;font-size:15px;font-weight:800;color:#CDD6EA;display:flex;align-items:center;gap:8px}
+  .panel h2 .tag{margin-left:auto;font-size:12px;font-weight:700;color:var(--muted)}
+
+  .route{padding:16px 0;border-bottom:1px solid var(--line)}
+  .route:last-child{border-bottom:none;padding-bottom:0}
+  .route:first-child{padding-top:0}
+  .route-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .route-name{font-size:16px;font-weight:800}
+  .route-name .code{color:var(--cyan);margin-left:6px}
+  .route-rem{font-size:13px;font-weight:800}
+  .route-rem.ok{color:#34D399}.route-rem.low{color:#FBBF24}.route-rem.full{color:#FB7185}
+  .fill{height:9px;background:#0E1526;border-radius:6px;overflow:hidden;margin-bottom:12px;border:1px solid var(--line)}
+  .fill>div{height:100%;background:linear-gradient(90deg,#2563EB,#22D3EE);border-radius:6px;transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .dots{display:flex;flex-wrap:wrap;gap:6px}
+  .dot{width:16px;height:16px;border-radius:4px;border:1.5px solid #33406a;background:transparent;transition:.2s}
+  .dot.on{background:var(--blue);border-color:var(--blue)}
+  .dot.flash{animation:flash .6s}
+  @keyframes flash{0%{box-shadow:0 0 0 0 rgba(34,211,238,.8);background:#22D3EE;border-color:#22D3EE}100%{box-shadow:0 0 0 8px rgba(34,211,238,0)}}
+
+  .cand-wrap{background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:6px}
+  .cand-top{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}
+  .cand-title{font-size:15px;font-weight:800}
+  .cand-num{font-size:15px;font-weight:900;color:var(--cyan)}
+  .cand-bar{height:9px;background:#0E1526;border-radius:6px;overflow:hidden;border:1px solid var(--line)}
+  .cand-bar>div{height:100%;background:linear-gradient(90deg,#F59E0B,#FBBF24);border-radius:6px;transition:width .5s}
+
+  .feed{max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:9px}
+  .feed::-webkit-scrollbar{width:6px}.feed::-webkit-scrollbar-thumb{background:#2a3557;border-radius:3px}
+  .fi{display:flex;align-items:center;gap:11px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;animation:fadein .3s}
+  @keyframes fadein{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .fi .ico{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;flex:none}
+  .fi.book .ico{background:rgba(59,130,246,.16)}
+  .fi.join .ico{background:rgba(245,158,11,.16)}
+  .fi.board .ico{background:rgba(16,185,129,.16)}
+  .fi .txt{font-size:13.5px;font-weight:600;color:#D7DEEE;line-height:1.35}
+  .empty{color:var(--dim);font-size:14px;text-align:center;padding:30px 0;font-weight:600}
+  .foot{margin-top:20px;text-align:center;color:var(--dim);font-size:12.5px;font-weight:600}
+</style>
+</head>
+<body>
+  <div class="top">
+    <div class="brand">
+      <div class="logo"><img src="/svg/nextrack_symbol.svg" alt="넥스트랙"></div>
+      <div><h1>넥스트랙 실시간 관제</h1><p>NEXTRACK Live Operations · 세경고 말랑연구소</p></div>
+    </div>
+    <span class="live-badge"><span class="pulse"></span>LIVE</span>
+    <div class="spacer"></div>
+    <button class="btn primary" id="simBtn">시뮬레이션 시작</button>
+    <button class="btn stop" id="resetBtn">초기화</button>
+    <a class="btn" href="/">← 앱으로</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat accent"><div class="k">실시간 접속자</div><div class="v"><span id="stOnline">0</span><small>명</small></div></div>
+    <div class="stat"><div class="k">예약된 좌석</div><div class="v"><span id="stBooked">0</span><small> / <span id="stTotal">0</span></small></div></div>
+    <div class="stat green"><div class="k">탑승 완료(보호자 알림)</div><div class="v"><span id="stBoard">0</span><small>건</small></div></div>
+    <div class="stat amber"><div class="k">노선 후보 모집</div><div class="v"><span id="stCand">0</span><small> / <span id="stCandT">15</span></small></div></div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>🚌 노선별 실시간 좌석 현황<span class="tag" id="routeTag"></span></h2>
+      <div id="routes"></div>
+      <div class="cand-wrap" id="candWrap" style="display:none">
+        <div class="cand-top"><div class="cand-title" id="candTitle">노선 후보</div><div class="cand-num"><span id="candCur">0</span> / <span id="candTgt">15</span>명</div></div>
+        <div class="cand-bar"><div id="candBar" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>⚡ 실시간 활동<span class="tag">최근순</span></h2>
+      <div class="feed" id="feed"><div class="empty">활동을 기다리는 중…<br>앱에서 좌석을 예약해보세요</div></div>
+    </div>
+  </div>
+
+  <div class="foot">관객 폰에서 <b style="color:#93A0BD">http://[발표자IP]:8000</b> 접속 후 좌석을 예약하면 이 화면이 실시간으로 채워집니다 · 시연용 프로토타입</div>
+
+<script>
+const TOKEN = "demo-reset";
+const $ = (s) => document.querySelector(s);
+let routes = {}, candidate = null, stats = null, simRunning = false;
+
+// ── 렌더 ────────────────────────────────────
+function seatSet(r){ return new Set(r.booked || []); }
+function renderRoutes(flashSeat){
+  const box = $("#routes");
+  const list = Object.values(routes).sort((a,b)=>(b.recommended-a.recommended)||a.code.localeCompare(b.code));
+  $("#routeTag").textContent = list.length ? `${list.length}개 노선 운행` : "";
+  box.innerHTML = list.map(r=>{
+    const total = r.seatsTotal, booked = (r.booked||[]).length, rem = total - booked;
+    const pct = total ? Math.round(booked/total*100) : 0;
+    const set = seatSet(r);
+    const dots = Array.from({length:total},(_,i)=>{
+      const n=i+1; const on=set.has(n);
+      const fl = (flashSeat && flashSeat.routeId===r.id && flashSeat.seatNo===n) ? " flash":"";
+      return `<div class="dot${on?" on":""}${fl}" data-r="${r.id}" data-n="${n}"></div>`;
+    }).join("");
+    const cls = rem<=0?"full":rem<=3?"low":"ok";
+    return `<div class="route">
+      <div class="route-head">
+        <div class="route-name">${r.title}<span class="code">${r.code}</span></div>
+        <div class="route-rem ${cls}">${rem<=0?"매진":"잔여 "+rem+"석"} · ${booked}/${total}</div>
+      </div>
+      <div class="fill"><div style="width:${pct}%"></div></div>
+      <div class="dots">${dots}</div>
+    </div>`;
+  }).join("");
+}
+function renderCandidate(){
+  if(!candidate){ $("#candWrap").style.display="none"; return; }
+  $("#candWrap").style.display="block";
+  $("#candTitle").textContent = candidate.title;
+  $("#candCur").textContent = candidate.current;
+  $("#candTgt").textContent = candidate.target;
+  $("#candBar").style.width = candidate.percent+"%";
+  $("#stCand").textContent = candidate.current;
+  $("#stCandT").textContent = candidate.target;
+}
+function renderStats(){
+  const total = Object.values(routes).reduce((a,r)=>a+r.seatsTotal,0);
+  const booked = Object.values(routes).reduce((a,r)=>a+(r.booked||[]).length,0);
+  $("#stBooked").textContent = booked;
+  $("#stTotal").textContent = total;
+  if(stats) $("#stBoard").textContent = stats.boarded ?? 0;
+}
+function pushFeed(item){
+  const feed = $("#feed");
+  const empty = feed.querySelector(".empty"); if(empty) empty.remove();
+  const ico = item.kind==="book"?"🪑":item.kind==="join"?"👥":"✅";
+  const node = document.createElement("div");
+  node.className = "fi "+item.kind;
+  node.innerHTML = `<div class="ico">${ico}</div><div class="txt">${item.text}</div>`;
+  feed.prepend(node);
+  while(feed.children.length>40) feed.lastChild.remove();
+}
+
+// ── WebSocket ───────────────────────────────
+function connect(){
+  const proto = location.protocol==="https:"?"wss":"ws";
+  let retry=0, pingT;
+  const open=()=>{
+    const ws=new WebSocket(`${proto}://${location.host}/ws`);
+    ws.onopen=()=>{ retry=0; clearInterval(pingT); pingT=setInterval(()=>{try{ws.send("ping")}catch(e){}},25000); };
+    ws.onmessage=(ev)=>{ let m; try{m=JSON.parse(ev.data)}catch(e){return} onMsg(m); };
+    ws.onclose=()=>{ clearInterval(pingT); retry=Math.min(retry+1,6); setTimeout(open,500*retry); };
+    ws.onerror=()=>{ try{ws.close()}catch(e){} };
+  };
+  open();
+}
+function onMsg(m){
+  switch(m.type){
+    case "snapshot":
+      routes = m.routes||{}; candidate=m.candidate; stats=m.stats;
+      $("#stOnline").textContent = m.online||0;
+      renderRoutes(); renderCandidate(); renderStats();
+      $("#feed").innerHTML="";
+      (m.activity||[]).slice().reverse().forEach(pushFeed);
+      if(!(m.activity||[]).length) $("#feed").innerHTML=`<div class="empty">활동을 기다리는 중…<br>앱에서 좌석을 예약해보세요</div>`;
+      break;
+    case "seat": {
+      const r = routes[m.routeId];
+      if(r){ const set=new Set(r.booked); m.status==="booked"?set.add(m.seatNo):set.delete(m.seatNo); r.booked=[...set]; }
+      renderRoutes(m); renderStats();
+      break;
+    }
+    case "activity":
+      if(m.stats){ stats=m.stats; renderStats(); }
+      if(m.item) pushFeed(m.item);
+      break;
+    case "candidate":
+      candidate = { title:m.title, current:m.current, target:m.target, percent:m.percent };
+      renderCandidate();
+      break;
+    case "presence":
+      $("#stOnline").textContent = m.online;
+      break;
+  }
+}
+
+// ── 컨트롤 ──────────────────────────────────
+async function refreshSim(){
+  try{ const d=await (await fetch("/api/admin/sim")).json(); simRunning=!!d.running; }catch(e){}
+  $("#simBtn").textContent = simRunning?"시뮬레이션 정지":"시뮬레이션 시작";
+  $("#simBtn").classList.toggle("stop", simRunning);
+  $("#simBtn").classList.toggle("primary", !simRunning);
+}
+$("#simBtn").addEventListener("click", async ()=>{
+  await fetch("/api/admin/sim",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:TOKEN,on:!simRunning})});
+  await refreshSim();
+});
+$("#resetBtn").addEventListener("click", async ()=>{
+  await fetch("/api/admin/reset",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:TOKEN})});
+  await refreshSim();
+});
+
+connect();
+refreshSim();
+</script>
+</body>
+</html>

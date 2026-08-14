@@ -1,0 +1,41 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<meta name="theme-color" content="#0E2C6E">
+<title>넥스트랙 NEXTRACK</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="/{{V}}/styles.css">
+<!-- Leaflet — 지도 확인 팝업(키 불필요) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="icon" type="image/svg+xml" href="/svg/nextrack_symbol.svg">
+
+<!-- 앱 셸: 폰 프레임 + 상태바 + 페이지 마운트 지점(#app) + 토스트 -->
+<div class="stage">
+  <div class="phone">
+    <div class="screen" id="phoneScreen" data-theme="light">
+
+      <div class="statusbar">
+        <span class="time">9:30</span>
+        <div class="icons">
+          <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="7" width="3" height="5" rx="1" fill="currentColor"/><rect x="5" y="4" width="3" height="8" rx="1" fill="currentColor"/><rect x="10" y="1" width="3" height="11" rx="1" fill="currentColor"/><rect x="15" y="1" width="3" height="11" rx="1" fill="currentColor" opacity=".4"/></svg>
+          <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.2 0.6 3.4a10.5 10.5 0 0 1 14.8 0z" fill="currentColor"/></svg>
+          <svg width="25" height="12" viewBox="0 0 25 12"><rect x="1" y="1" width="20" height="10" rx="3" fill="none" stroke="currentColor" stroke-opacity=".5" stroke-width="1.1"/><rect x="2.5" y="2.5" width="15" height="7" rx="1.6" fill="currentColor"/><rect x="22.2" y="4" width="1.8" height="4" rx=".9" fill="currentColor" opacity=".5"/></svg>
+        </div>
+      </div>
+
+      <main id="app"><!-- 페이지가 여기에 마운트됩니다 --></main>
+
+      <!-- 탑승 중 플로팅 배너 (카카오 택시 운행중처럼) -->
+      <div class="ride-banner" id="rideBanner" hidden>
+        <span class="rb-blip"></span>
+        <div class="rb-txt"><b>탑승 중</b><span> · 실시간 위치 보기</span></div>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+
+      <div class="toast" id="toast"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/{{V}}/js/main.js"></script>

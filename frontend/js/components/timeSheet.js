@@ -38,7 +38,9 @@ function close() { dim.classList.remove("show"); sheet.classList.remove("show");
 
 export function openTimeSheet(current, onPick, mode = "하교") {
   ensure();
-  const TIMES = mode === "등교" ? TIMES_DUNGGYO : TIMES_HAGYO;
+  const isDeung = mode === "등교";
+  sheet.querySelector(".sheet-title").textContent = `${isDeung ? "등교" : "하교"} 시간 선택`;
+  const TIMES = isDeung ? TIMES_DUNGGYO : TIMES_HAGYO;
   const list = sheet.querySelector("#timeList");
   list.innerHTML = TIMES.map((o) => `
     <div class="time-opt ${o.t === current ? "on" : ""}" data-time="${o.t}">

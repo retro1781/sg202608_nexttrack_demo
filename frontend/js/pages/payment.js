@@ -33,11 +33,11 @@ export default function Payment() {
 
           <div class="pay-card" style="margin-top:14px">
             <div style="font-size:14px;font-weight:800;color:#191F28;margin-bottom:14px">결제 금액</div>
-            <div class="pay-row"><span>월 정액</span><b>88,000원</b></div>
-            <div class="pay-row"><span>첫 달 50% 할인</span><b style="color:#12388F">−44,000원</b></div>
+            <div class="pay-row"><span>월 정액</span><b id="payMonthly">—</b></div>
+            <div class="pay-row"><span>첫 달 50% 할인</span><b style="color:#12388F" id="payDiscount">—</b></div>
             <div class="pay-row"><span>3개월 약정 혜택</span><b style="color:#0E9E6E;background:#ECFDF5;border-radius:7px;padding:3px 9px">1개월 무료</b></div>
             <div class="hr"></div>
-            <div class="pay-total"><span class="l">첫 달 결제금액</span><span class="v">44,000원</span></div>
+            <div class="pay-total"><span class="l">첫 달 결제금액</span><span class="v" id="payTotal">—</span></div>
             <div style="margin-top:10px;background:#EAF0FB;border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:8px">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#12388F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span style="font-size:12.5px;font-weight:700;color:#0E2C6E" id="payPerRide">회당 요금 — 안심 하교 + 보호자 알림</span>
@@ -61,19 +61,27 @@ export default function Payment() {
         </div>
       </div>
       <div class="footer">
-        <button class="cta" id="payBtn">44,000원 결제하고 시작하기</button>
+        <button class="cta" id="payBtn">결제하고 시작하기</button>
         <div class="homebar"><div></div></div>
       </div>
     </section>`);
 
   const r = store.state.routes[store.state.selectedRouteId];
   const seat = store.state.selectedSeat;
+  const won = (n) => Number(n).toLocaleString("ko-KR") + "원";
   if (r) {
     el.querySelector("#payRoute").textContent = `${r.title} ${r.code}`;
     el.querySelector("#paySeat").textContent = `${seat}번 좌석 · 평일 하교`;
     if (r.perRide != null)
       el.querySelector("#payPerRide").textContent =
         `회당 ${Number(r.perRide).toLocaleString("ko-KR")}원 — 안심 하교 + 보호자 알림`;
+    const monthly = Number(r.price);
+    const discount = Math.round(monthly / 2);   // 첫 달 50% 할인
+    const first = monthly - discount;
+    el.querySelector("#payMonthly").textContent = won(monthly);
+    el.querySelector("#payDiscount").textContent = "−" + won(discount);
+    el.querySelector("#payTotal").textContent = won(first);
+    el.querySelector("#payBtn").textContent = `${won(first)} 결제하고 시작하기`;
   }
 
   const btn = el.querySelector("#payBtn");

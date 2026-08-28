@@ -223,11 +223,14 @@ class Store:
             k = int(seats * ratio)
             booked = set(rnd.sample(range(1, seats + 1), k)) if k else set()
             peers = 6 + (zlib.crc32(rid.encode()) % 11)
+            per = per_ride_price(core)
+            # 월 정액 = 회당가 × 평일 20일 왕복(×2) + 변형별 가감(직행 88,000 기준)
+            monthly = per * 40 + (price - 88000)
             self.routes[rid] = Route(
                 id=rid, code=sub, title=title,
                 origin=origin, dest=dest,
                 depart=dep, depart_spot=dspot, arrive=arr, arrive_spot=aspot,
-                duration_min=dur, road="지방도", price=price, per_ride=per_ride_price(core),
+                duration_min=dur, road="지방도", price=monthly, per_ride=per,
                 school_peers=peers, seats_total=seats, recommended=rec, booked=booked,
             )
             ids.append(rid)

@@ -22,6 +22,9 @@ def region_core(region: str) -> str:
     return core or region
 
 
+# 월 정액 = 회당가 × 운행횟수 (평일 20일 · 편도 1회/일)
+RIDES_PER_MONTH = 20
+
 # 회당 가격 (권역별) — region_core → 원
 PER_RIDE_GROUPS = (
     (("문산", "파주", "법원", "광탄", "탄현", "파평", "적성", "군내"), 2000),
@@ -224,8 +227,8 @@ class Store:
             booked = set(rnd.sample(range(1, seats + 1), k)) if k else set()
             peers = 6 + (zlib.crc32(rid.encode()) % 11)
             per = per_ride_price(core)
-            # 월 정액 = 회당가 × 평일 20일 왕복(×2) + 변형별 가감(직행 88,000 기준)
-            monthly = per * 40 + (price - 88000)
+            # 월 정액 = 회당가 × 평일 20일(편도 1회/일). 라벨 '평일 20일 운행'과 일치.
+            monthly = per * RIDES_PER_MONTH
             self.routes[rid] = Route(
                 id=rid, code=sub, title=title,
                 origin=origin, dest=dest,

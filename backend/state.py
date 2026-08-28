@@ -22,6 +22,21 @@ def region_core(region: str) -> str:
     return core or region
 
 
+# 회당 가격 (권역별) — region_core → 원
+PER_RIDE_GROUPS = (
+    (("문산", "파주", "법원", "광탄", "탄현", "파평", "적성", "군내"), 2000),
+    (("금촌", "아동", "야동", "금릉", "검산", "맥금", "조리", "월롱"), 2500),
+    (("운정", "교하", "야당", "와동", "목동", "동패", "다율", "상지석",
+      "하지석", "문발", "서패", "산남", "송촌", "당하", "신촌", "연다산", "오도"), 3000),
+)
+PER_RIDE_BY_CORE = {c: p for cores, p in PER_RIDE_GROUPS for c in cores}
+
+
+def per_ride_price(region: str) -> int:
+    """지역(또는 core)의 회당 요금. 미등록 지역은 2,500원."""
+    return PER_RIDE_BY_CORE.get(region_core(region), 2500)
+
+
 def school_short(name: str) -> str:
     """'세경고등학교'→'세경고', '운정중학교'→'운정중'."""
     for suf, rep in (("고등학교", "고"), ("중학교", "중"), ("초등학교", "초"), ("학교", "")):
@@ -78,6 +93,7 @@ class Route:
     duration_min: int
     road: str            # "지방도"
     price: int           # 월 정액
+    per_ride: int        # 회당 가격 (권역별)
     school_peers: int    # 같은 학교 N명
     seats_total: int
     recommended: bool = False
@@ -100,6 +116,7 @@ class Route:
             "durationMin": self.duration_min,
             "road": self.road,
             "price": self.price,
+            "perRide": self.per_ride,
             "schoolPeers": self.school_peers,
             "seatsTotal": self.seats_total,
             "remaining": self.remaining(),
@@ -210,7 +227,7 @@ class Store:
                 id=rid, code=sub, title=title,
                 origin=origin, dest=dest,
                 depart=dep, depart_spot=dspot, arrive=arr, arrive_spot=aspot,
-                duration_min=dur, road="지방도", price=price,
+                duration_min=dur, road="지방도", price=price, per_ride=per_ride_price(core),
                 school_peers=peers, seats_total=seats, recommended=rec, booked=booked,
             )
             ids.append(rid)

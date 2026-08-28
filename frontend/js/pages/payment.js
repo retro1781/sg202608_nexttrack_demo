@@ -40,7 +40,7 @@ export default function Payment() {
             <div class="pay-total"><span class="l">첫 달 결제금액</span><span class="v">44,000원</span></div>
             <div style="margin-top:10px;background:#EAF0FB;border-radius:11px;padding:10px 13px;display:flex;align-items:center;gap:8px">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#12388F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <span style="font-size:12.5px;font-weight:700;color:#0E2C6E">회당 약 4,000원 — 안심 하교 + 보호자 알림</span>
+              <span style="font-size:12.5px;font-weight:700;color:#0E2C6E" id="payPerRide">회당 요금 — 안심 하교 + 보호자 알림</span>
             </div>
           </div>
 
@@ -71,6 +71,9 @@ export default function Payment() {
   if (r) {
     el.querySelector("#payRoute").textContent = `${r.title} ${r.code}`;
     el.querySelector("#paySeat").textContent = `${seat}번 좌석 · 평일 하교`;
+    if (r.perRide != null)
+      el.querySelector("#payPerRide").textContent =
+        `회당 ${Number(r.perRide).toLocaleString("ko-KR")}원 — 안심 하교 + 보호자 알림`;
   }
 
   const btn = el.querySelector("#payBtn");

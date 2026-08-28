@@ -71,7 +71,8 @@ export default function Seat() {
   function renderGrid() {
     const r = route(); if (!r) return;
     el.querySelector("#seatTitle").textContent = `${r.title} ${r.code}`;
-    el.querySelector("#seatPrice").textContent = "월 " + won(r.price);
+    el.querySelector("#seatPrice").textContent =
+      "월 " + won(r.price) + (r.perRide != null ? ` · 회당 ${Number(r.perRide).toLocaleString("ko-KR")}원` : "");
     el.querySelector("#seatRows").innerHTML = seatRowsHTML(r, store.state.selectedSeat);
     el.querySelectorAll("#seatRows .seat.avail").forEach((s) =>
       s.addEventListener("click", () => {

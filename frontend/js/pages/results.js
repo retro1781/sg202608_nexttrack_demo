@@ -74,7 +74,7 @@ export default function Results() {
         <div class="rc-foot">
           <div>
             <div class="price">월 ${Number(r.price).toLocaleString("ko-KR")}<small>원</small></div>
-            ${rec ? `<div class="price-sub">회당 약 4,000원</div>` : ""}
+            ${rec ? `<div class="price-sub">회당 ${Number(r.perRide).toLocaleString("ko-KR")}원</div>` : ""}
           </div>
           <button class="btn-sm ${rec ? "" : "soft"}" ${full ? "disabled style='background:#C5CCD6;color:#fff'" : ""} data-route="${r.id}">${full ? "매진" : "좌석 선택"}</button>
         </div>

@@ -66,7 +66,7 @@ export default function Home() {
           <div class="event-banner">
             <div>
               <div class="eb-title">첫 달 50% 할인 🎉</div>
-              <div class="eb-sub">지금 예약하면 회당 약 4,000원</div>
+              <div class="eb-sub">지금 예약하면 회당 2,000원부터</div>
             </div>
             <div class="eb-badge">EVENT</div>
           </div>
